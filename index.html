@@ -676,6 +676,9 @@
     </div>
   </div>
 
+  <!-- iframe caché pour recevoir la réponse du formulaire sans quitter la page -->
+  <iframe name="hiddenFrame" style="display:none"></iframe>
+
   <!-- FOOTER -->
   <footer>
     <div class="footer-names">Candice &amp; Léo</div>
@@ -699,11 +702,10 @@
       }
     });
 
-    document.getElementById('rsvpForm').addEventListener('submit', async function (e) {
+    document.getElementById('rsvpForm').addEventListener('submit', function (e) {
       e.preventDefault();
       const btn = document.getElementById('submitBtn');
       const success = document.getElementById('rsvpSuccess');
-      const error = document.getElementById('rsvpError');
 
       const nom = document.getElementById('nom').value.trim();
       const accompagnant = document.getElementById('avecAccompagnant').checked
@@ -712,25 +714,30 @@
 
       btn.disabled = true;
       btn.textContent = 'Envoi…';
-      success.style.display = 'none';
-      error.style.display = 'none';
 
-      try {
-        const params = new URLSearchParams({ nom, accompagnant });
-        await new Promise((resolve, reject) => {
-          const img = new Image();
-          img.onload = img.onerror = resolve;
-          setTimeout(resolve, 5000);
-          img.src = SCRIPT_URL + '?' + params.toString();
-        });
+      // Soumettre via un formulaire natif vers l'iframe caché (contourne le CORS)
+      const hiddenForm = document.createElement('form');
+      hiddenForm.method = 'GET';
+      hiddenForm.action = SCRIPT_URL;
+      hiddenForm.target = 'hiddenFrame';
+
+      [['nom', nom], ['accompagnant', accompagnant]].forEach(([k, v]) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = k;
+        input.value = v;
+        hiddenForm.appendChild(input);
+      });
+
+      document.body.appendChild(hiddenForm);
+      hiddenForm.submit();
+      document.body.removeChild(hiddenForm);
+
+      setTimeout(() => {
         success.style.display = 'block';
-        this.reset();
+        document.getElementById('rsvpForm').reset();
         document.getElementById('accompagnantField').classList.remove('visible');
-      } catch {
-        error.style.display = 'block';
-        btn.disabled = false;
-        btn.textContent = 'Confirmer ma présence';
-      }
+      }, 1000);
     });
   </script>
 </body>
