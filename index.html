@@ -717,10 +717,7 @@
 
       try {
         const params = new URLSearchParams({ nom, accompagnant });
-        await fetch(SCRIPT_URL + '?' + params.toString(), {
-          method: 'GET',
-          mode: 'no-cors',
-        });
+        await fetch(SCRIPT_URL + '?' + params.toString(), { redirect: 'follow' });
         success.style.display = 'block';
         this.reset();
         document.getElementById('accompagnantField').classList.remove('visible');
