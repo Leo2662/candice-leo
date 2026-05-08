@@ -644,41 +644,6 @@
     </div>
   </div>
 
-  <div class="divider"></div>
-
-  <!-- RSVP -->
-  <div class="rsvp-section">
-    <div class="section">
-      <h2 class="section-title">Confirmer votre présence</h2>
-
-      <form class="rsvp-form" id="rsvpForm">
-        <div class="form-field">
-          <label for="nom">Votre nom</label>
-          <input type="text" id="nom" name="nom" placeholder="Prénom Nom" autocomplete="name" required />
-        </div>
-
-        <label class="checkbox-row">
-          <input type="checkbox" id="avecAccompagnant" />
-          <span>Je viendrai accompagné(e)</span>
-        </label>
-
-        <div class="accompagnant-field" id="accompagnantField">
-          <div class="form-field">
-            <label for="accompagnant">Nom de votre accompagnant(e)</label>
-            <input type="text" id="accompagnant" name="accompagnant" placeholder="Prénom Nom" />
-          </div>
-        </div>
-
-        <button type="submit" class="btn-submit" id="submitBtn">Confirmer ma présence</button>
-        <div class="rsvp-success" id="rsvpSuccess">Merci, on vous attend ! &#x1F90D;</div>
-        <div class="rsvp-error" id="rsvpError">Une erreur est survenue, réessayez.</div>
-      </form>
-    </div>
-  </div>
-
-  <!-- iframe caché pour recevoir la réponse du formulaire sans quitter la page -->
-  <iframe id="hiddenFrame" name="hiddenFrame" style="display:none"></iframe>
-
   <!-- FOOTER -->
   <footer>
     <div class="footer-names">Candice &amp; Léo</div>
@@ -686,58 +651,5 @@
     <div class="footer-date">13 Juin · Lille · Bondues</div>
   </footer>
 
-  <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGXbmDZl8cbHxSLCuKKOjOUWd5QPsZz2Z_EJUBTC_iC5r_GF369T6dTv9RKXSwfkIT/exec';
-
-    document.getElementById('avecAccompagnant').addEventListener('change', function () {
-      const field = document.getElementById('accompagnantField');
-      const input = document.getElementById('accompagnant');
-      if (this.checked) {
-        field.classList.add('visible');
-        input.required = true;
-      } else {
-        field.classList.remove('visible');
-        input.required = false;
-        input.value = '';
-      }
-    });
-
-    document.getElementById('rsvpForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-      const btn = document.getElementById('submitBtn');
-      const success = document.getElementById('rsvpSuccess');
-
-      const nom = document.getElementById('nom').value.trim();
-      const accompagnant = document.getElementById('avecAccompagnant').checked
-        ? document.getElementById('accompagnant').value.trim()
-        : '';
-
-      btn.disabled = true;
-      btn.textContent = 'Envoi…';
-
-      const hiddenForm = document.createElement('form');
-      hiddenForm.method = 'GET';
-      hiddenForm.action = SCRIPT_URL;
-      hiddenForm.target = 'hiddenFrame';
-
-      [['nom', nom], ['accompagnant', accompagnant]].forEach(([k, v]) => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = k;
-        input.value = v;
-        hiddenForm.appendChild(input);
-      });
-
-      document.body.appendChild(hiddenForm);
-      hiddenForm.submit();
-      document.body.removeChild(hiddenForm);
-
-      setTimeout(() => {
-        success.style.display = 'block';
-        document.getElementById('rsvpForm').reset();
-        document.getElementById('accompagnantField').classList.remove('visible');
-      }, 1000);
-    });
-  </script>
 </body>
 </html>
