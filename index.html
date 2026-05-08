@@ -383,13 +383,162 @@
       border-radius: 999px;
     }
 
-    /* ── DECORATIVE LEAF ── */
-    .leaf-deco {
-      display: block;
-      font-size: 5rem;
-      opacity: 0.07;
+    /* ── RSVP FORM ── */
+    .rsvp-section {
+      background: var(--forest);
+      color: var(--cream);
+    }
+
+    .rsvp-section .section-label {
+      color: var(--cream);
+      opacity: 0.45;
+    }
+
+    .rsvp-section .section-title {
+      color: var(--cream);
+    }
+
+    .rsvp-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      max-width: 480px;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-field label {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+
+    .form-field input[type="text"] {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid rgba(246, 230, 218, 0.3);
+      color: var(--cream);
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.4rem;
+      padding: 0.4rem 0;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    .form-field input[type="text"]::placeholder {
+      color: var(--cream);
+      opacity: 0.25;
+    }
+
+    .form-field input[type="text"]:focus {
+      border-bottom-color: var(--lime);
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
       user-select: none;
-      line-height: 1;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(246, 230, 218, 0.4);
+      border-radius: 3px;
+      flex-shrink: 0;
+      cursor: pointer;
+      position: relative;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .checkbox-row input[type="checkbox"]:checked {
+      background: var(--lime);
+      border-color: var(--lime);
+    }
+
+    .checkbox-row input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 1px;
+      width: 7px;
+      height: 11px;
+      border: 2px solid var(--forest);
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg);
+    }
+
+    .checkbox-row span {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.88rem;
+      opacity: 0.8;
+    }
+
+    .accompagnant-field {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.3s ease, opacity 0.3s ease;
+    }
+
+    .accompagnant-field.visible {
+      max-height: 100px;
+      opacity: 1;
+    }
+
+    .btn-submit {
+      margin-top: 0.5rem;
+      background: var(--lime);
+      color: var(--forest);
+      border: none;
+      font-family: 'Special Elite', monospace;
+      font-size: 0.88rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      border-radius: 999px;
+      cursor: pointer;
+      align-self: flex-start;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .btn-submit:hover {
+      opacity: 0.85;
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .rsvp-success {
+      display: none;
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      color: var(--lime);
+      margin-top: 1rem;
+    }
+
+    .rsvp-error {
+      display: none;
+      font-family: 'Special Elite', monospace;
+      font-size: 0.83rem;
+      color: #ff6b6b;
+      margin-top: 0.5rem;
     }
   </style>
 </head>
@@ -495,6 +644,39 @@
     </div>
   </div>
 
+  <div class="divider"></div>
+
+  <!-- RSVP -->
+  <div class="rsvp-section">
+    <div class="section">
+      <p class="section-label">Confirmer votre présence</p>
+      <h2 class="section-title">Réservation</h2>
+
+      <form class="rsvp-form" id="rsvpForm">
+        <div class="form-field">
+          <label for="nom">Votre nom</label>
+          <input type="text" id="nom" name="nom" placeholder="Prénom Nom" autocomplete="name" required />
+        </div>
+
+        <label class="checkbox-row">
+          <input type="checkbox" id="avecAccompagnant" />
+          <span>Je viendrai accompagné(e)</span>
+        </label>
+
+        <div class="accompagnant-field" id="accompagnantField">
+          <div class="form-field">
+            <label for="accompagnant">Nom de votre accompagnant(e)</label>
+            <input type="text" id="accompagnant" name="accompagnant" placeholder="Prénom Nom" />
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">Confirmer ma présence</button>
+        <div class="rsvp-success" id="rsvpSuccess">Merci, on vous attend ! &#x1F90D;</div>
+        <div class="rsvp-error" id="rsvpError">Une erreur est survenue, réessayez.</div>
+      </form>
+    </div>
+  </div>
+
   <!-- FOOTER -->
   <footer>
     <div class="footer-names">Candice &amp; Léo</div>
@@ -502,5 +684,54 @@
     <div class="footer-date">13 Juin · Lille · Bondues</div>
   </footer>
 
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGXbmDZl8cbHxSLCuKKOjOUWd5QPsZz2Z_EJUBTC_iC5r_GF369T6dTv9RKXSwfkIT/exec';
+
+    document.getElementById('avecAccompagnant').addEventListener('change', function () {
+      const field = document.getElementById('accompagnantField');
+      const input = document.getElementById('accompagnant');
+      if (this.checked) {
+        field.classList.add('visible');
+        input.required = true;
+      } else {
+        field.classList.remove('visible');
+        input.required = false;
+        input.value = '';
+      }
+    });
+
+    document.getElementById('rsvpForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const success = document.getElementById('rsvpSuccess');
+      const error = document.getElementById('rsvpError');
+
+      const nom = document.getElementById('nom').value.trim();
+      const accompagnant = document.getElementById('avecAccompagnant').checked
+        ? document.getElementById('accompagnant').value.trim()
+        : '';
+
+      btn.disabled = true;
+      btn.textContent = 'Envoi…';
+      success.style.display = 'none';
+      error.style.display = 'none';
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nom, accompagnant }),
+        });
+        success.style.display = 'block';
+        this.reset();
+        document.getElementById('accompagnantField').classList.remove('visible');
+      } catch {
+        error.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Confirmer ma présence';
+      }
+    });
+  </script>
 </body>
 </html>
