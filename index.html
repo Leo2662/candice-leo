@@ -716,11 +716,10 @@
       error.style.display = 'none';
 
       try {
-        await fetch(SCRIPT_URL, {
-          method: 'POST',
+        const params = new URLSearchParams({ nom, accompagnant });
+        await fetch(SCRIPT_URL + '?' + params.toString(), {
+          method: 'GET',
           mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify({ nom, accompagnant }),
         });
         success.style.display = 'block';
         this.reset();
