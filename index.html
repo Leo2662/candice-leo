@@ -672,7 +672,6 @@
         <button type="submit" class="btn-submit" id="submitBtn">Confirmer ma présence</button>
         <div class="rsvp-success" id="rsvpSuccess">Merci, on vous attend ! &#x1F90D;</div>
         <div class="rsvp-error" id="rsvpError">Une erreur est survenue, réessayez.</div>
-        <pre id="debugLog" style="display:none;margin-top:1rem;padding:1rem;background:rgba(0,0,0,0.4);color:#D1E030;font-size:0.75rem;border-radius:4px;white-space:pre-wrap;word-break:break-all;"></pre>
       </form>
     </div>
   </div>
@@ -703,12 +702,6 @@
       }
     });
 
-    function dbg(msg) {
-      const el = document.getElementById('debugLog');
-      el.style.display = 'block';
-      el.textContent += '\n' + new Date().toISOString().slice(11,19) + ' — ' + msg;
-    }
-
     document.getElementById('rsvpForm').addEventListener('submit', function (e) {
       e.preventDefault();
       const btn = document.getElementById('submitBtn');
@@ -719,14 +712,8 @@
         ? document.getElementById('accompagnant').value.trim()
         : '';
 
-      dbg('Submit déclenché');
-      dbg('nom="' + nom + '" accompagnant="' + accompagnant + '"');
-
       btn.disabled = true;
       btn.textContent = 'Envoi…';
-
-      const iframe = document.getElementById('hiddenFrame');
-      iframe.onload = () => dbg('iframe onload — Apps Script a répondu');
 
       const hiddenForm = document.createElement('form');
       hiddenForm.method = 'GET';
@@ -741,15 +728,11 @@
         hiddenForm.appendChild(input);
       });
 
-      dbg('URL cible : ' + SCRIPT_URL + '?nom=' + encodeURIComponent(nom) + '&accompagnant=' + encodeURIComponent(accompagnant));
-      dbg('Soumission du formulaire caché…');
       document.body.appendChild(hiddenForm);
       hiddenForm.submit();
       document.body.removeChild(hiddenForm);
-      dbg('Formulaire soumis');
 
       setTimeout(() => {
-        dbg('Timeout 1s — affichage confirmation');
         success.style.display = 'block';
         document.getElementById('rsvpForm').reset();
         document.getElementById('accompagnantField').classList.remove('visible');
