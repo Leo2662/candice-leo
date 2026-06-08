@@ -351,6 +351,60 @@
       opacity: 0.65;
     }
 
+    /* ── DRESS CODE ── */
+    .dress-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 600px) {
+      .dress-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .dress-card {
+      border: 2px solid var(--forest);
+      border-radius: 4px;
+      padding: 2rem 1.75rem;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .dress-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: var(--vivid);
+    }
+
+    .dress-icon {
+      font-size: 2rem;
+      line-height: 1;
+      margin-bottom: 0.75rem;
+      opacity: 0.5;
+    }
+
+    .dress-rule {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .dress-note {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      opacity: 0.7;
+    }
+
     /* ── PHOTO SHARE ── */
     .photo-share {
       text-align: center;
@@ -611,18 +665,18 @@
         <div class="timeline-content">
           <div class="timeline-event">Accueil & Parking</div>
           <div class="timeline-detail">
-            Accueil de <strong>9h20 à 9h40</strong>.<br>
-            Le parking est situé au <strong>172 rue Pierre Mauroy, Lille</strong> — nous serons là pour vous ouvrir.
+            Accueil de <strong>9h à 9h30</strong>.<br>
+            Le parking est situé au <strong>172 rue Pierre Mauroy, Lille</strong> — Elise et Paul-Hadrien seront là pour vous accueillir.
           </div>
         </div>
       </div>
 
       <div class="timeline-item">
-        <div class="timeline-time">9h50</div>
+        <div class="timeline-time">9h45</div>
         <div class="timeline-content">
           <div class="timeline-event">Cérémonie à la Mairie</div>
           <div class="timeline-detail">
-            La mairie de Lille — arrivée à <strong>9h50</strong> pour un début à <strong>10h</strong>.
+            La mairie de Lille — arrivée <strong>au plus tard à 9h45</strong> pour un début à <strong>10h</strong>.
           </div>
         </div>
       </div>
@@ -682,6 +736,26 @@
         </div>
       </div>
 
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- CODE VESTIMENTAIRE -->
+  <div class="section dress-code">
+    <p class="section-label">Tenue</p>
+    <h2 class="section-title">Code vestimentaire</h2>
+    <div class="dress-grid">
+      <div class="dress-card">
+        <div class="dress-icon">♀</div>
+        <div class="dress-rule">Femmes</div>
+        <div class="dress-note">Pas de blanc, s'il vous plaît.</div>
+      </div>
+      <div class="dress-card">
+        <div class="dress-icon">♂</div>
+        <div class="dress-rule">Hommes</div>
+        <div class="dress-note">Pas de nœuds papillons.</div>
+      </div>
     </div>
   </div>
 
